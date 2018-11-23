@@ -1,0 +1,19 @@
+#include <HC_SR04.h>
+ 
+HC_SR04 sensor_distance;
+float distancia;
+ 
+void setup()
+{
+Serial.begin(9600);
+}
+
+ 
+void loop()
+{
+        
+    sensor_distance.setup(12,11);
+	distancia = sensor_distance.measurement_for(10);
+	Serial.println(distancia);
+	delay(4000);
+}

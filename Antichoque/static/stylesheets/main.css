@@ -1,0 +1,33 @@
+.footer {
+	background-color: #101010;
+	color: white;
+	margin-bottom: 0px;
+}
+
+.login{
+	margin-top: 4rem;
+}
+
+.footerImg {
+  padding: 15px;
+  border-radius: 30%;
+}
+
+.float-right {
+	padding-top: 20%;
+}
+
+.parTitle {
+	color: #2d7eff;
+}
+
+.btn-dark{
+	background-color: #333 !important; 
+	color: white;
+}
+
+.btn-dark:hover{
+	color:grey !important;
+}
+
+

@@ -1,0 +1,62 @@
+// La velocidad depende del modelo de ESP-01
+// siendo habituales 9600 y 115200
+#include "SoftwareSerial.h"
+#define BAUDRATE 115200
+
+SoftwareSerial softSerial(RX, TX); // RX, TX
+ 
+void setup()
+{
+   delay(5000);
+   Serial.begin(BAUDRATE);
+   softSerial.begin(BAUDRATE);
+   //softSerial.print("AT+RST\r\n");
+   //delay(100);
+   //softSerial.print("AT\r\n");
+   //delay(100);
+   softSerial.write("AT+CWMODE=3\r\n");
+   delay(100);
+  //softSerial.print("AT+CWSAP=\"SISTEMA_ANTICHOQUE\",\"PASS\"\r\n",3,0); 
+   softSerial.write("AT+CWSAP=\"");
+   softSerial.write("SISTME_ANTICHOQUE");
+   softSerial.write("\",\"");
+   softSerial.write("pass");
+   softSerial.write("\"\r\n");  
+   softSerial.print(3,0);
+   delay(100);
+   softSerial.write("AT+CWSAP=1\r\n");
+   delay(100);
+   softSerial.write("AT+CIPSERVER=1,666\r\n");
+  
+   
+  
+}
+ 
+void loop()
+// enviar los datos de la consola serial al ESP-01, 
+// y mostrar lo enviado por el ESP-01 a nuestra consola
+{    
+ 
+   if (softSerial.available()){
+      Serial.print((char)softSerial.read());
+
+   }
+   if (Serial.available()) {
+       softSerial.print((char)Serial.read());
+   }     
+ 
+   
+}
+
+ AT+RST //reseteo el modulo
+ AT+CWMODE=3 //lo pongo en modo cliente y servidor
+ AT+CWSAP="SistemaAntichoque","pass",3,0 //Inicio la red
+ AT+CIPMUX=1 //acepto multiple coneioens
+ AT+CIPSERVER=1,666//prendo el servidor 666
+ +IPD //para recibir datos
+ AT+CIPSEND=0,6
+ AT+CIPSEND= <id>,<length> //para enviar datos
+
+
+
+ ip del esp8266 192.168.4.1

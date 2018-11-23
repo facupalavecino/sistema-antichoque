@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Sistema Antichoque</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- JQuery -->
+    <script src="{{url_for('static', filename='jquery/jquery-3.2.1.min.js')}}"></script>        
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{url_for('static', filename='bootstrap3/css/bootstrap.min.css')}}" />
+    <link rel="stylesheet" href="{{url_for('static', filename='stylesheets/main.css')}}" />
+    <!-- Bootstrap JS -->
+    <script src="{{url_for('static', filename='bootstrap3/js/bootstrap.min.js')}}"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">Sistema Antichoque</a>
+        </div>
+
+      </div><!-- /.container-fluid -->
+    </nav>
+    
+    <br>
+
+    <div class="container">
+        <!-- Titulo de arriba -->
+        <div class="container text-center login">
+            <h1 class="parTitle"><strong>Login</strong></h2>
+        </div>
+        <br>
+        {% if error %}
+            <div class="row justify-content-md-center">
+                <div class="col-md-4 col-md-offset-4 col-xs-12">
+                    <div class="alert alert-danger">{{ error }}</div>
+                </div>
+            </div>
+            <br>
+        {% elif inform %}
+            <div class="row justify-content-md-center">
+                <div class="col-md-4 col-md-offset-4 col-xs-12">
+                    <div class="alert alert-success">{{ inform }}</div>
+                </div>
+            </div>
+            <br>
+        {% endif %}
+        <form action="/login" method="POST">   
+            <div class="row justify-content-md-center">
+                <div class="col-md-4 col-md-offset-4 col-xs-12">
+                    <div class="form-group">
+                        <label for="nombre">Nombre de Usuario</label>
+                        <input type="text" class="form-control" id="username" name="username" aria-describedby="usernameHelp" placeholder="Ingrese su nombre de usuario" required/>                
+                        <small id="nombreHelp" class="form-text text-muted">Aquí debe ingresar su nombre de usuario.</small>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-md-center">
+                <div class="col-md-4 col-md-offset-4 col-xs-12">
+                    <div class="form-group">
+                        <label for="nombre">Contraseña</label>
+                        <input type="password" class="form-control" id="password" name="password" aria-describedby="passwordHelp" placeholder="Ingrese su contraseña" required/>                
+                        <small id="apellidoHelp" class="form-text text-muted">Aquí debe ingresar su contraseña.</small>
+                    </div>
+                </div>
+            </div>      
+            <br>       
+            <div class="row justify-content-md-center">  
+                <div class="col-md-2 col-md-offset-5 col-xs-12"> 
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-dark btn-lg"">Ingresar</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <br>
+    <br>
+    
+    <!--Footer-->
+    <footer class="footer" style="margin-top: 75px">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-2">
+                    <img class="img-fluid footerImg" src="static/assets/logo1.jpg" alt="Logo" height="90" width="100">
+                </div>
+                <div class="col-sm-2 col-sm-offset-8">
+                    <p class="float-right"><strong>Alvarez - Cristofano 2017</strong> </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+
+</html>

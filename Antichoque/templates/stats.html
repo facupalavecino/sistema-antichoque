@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Sistema Antichoque</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- JQuery -->
+    <script src="{{url_for('static', filename='jquery/jquery-3.2.1.min.js')}}"></script>       
+    <!-- <script type="text/javascript" src="{{url_for('static', filename='scripts/stats.js')}}"></script> -->  
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{url_for('static', filename='bootstrap3/css/bootstrap.min.css')}}" />
+    <link rel="stylesheet" href="{{url_for('static', filename='stylesheets/main.css')}}" />
+
+    <!-- Bootstrap JS -->
+    <script src="{{url_for('static', filename='bootstrap3/js/bootstrap.min.js')}}"></script>
+
+    
+</head>
+
+<body>
+    <!-- Barra -->  
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">Sistema Antichoque</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mi cuenta <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="/">Control</a></li>
+                <li><a href="/stats">Estadisticas</a></li>
+                <li><a href="/account">Mis datos</a></li>
+                <li><a href="/connect">Conectarse</a></li>
+                <li><a href="/faqs">FAQs</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="/logout">Logout</a> </li>
+              </ul>
+            </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+    
+    <br>
+
+
+    <div class="container">
+
+        <div class="container text-center">
+            <h1 class="parTitle"><strong>Estadisticas</strong></h1>
+        </div>
+        <br>
+        <!-- Agregar ifs para que detecte la distancia y los pinte de verde, amarillo o rojo -->  
+        {% if eventos %}   
+            <div class="table-responsive">
+                <table class="table">
+                    <thead class="btn-dark"> 
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Avance/Retroceso</th>
+                            <th>Distancia</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for i in eventos %}
+                        {% if i.4 > 50 %}
+                            <tr class="success">
+                        {% elif i.4 > 25 %}
+                            <tr class="warning">
+                        {% else %}
+                            <tr class="danger">
+                        {% endif %}
+                            <td><b>{{ i.2 }}</b></td>
+                            <td><b>{{ i.3 }}</b></td>
+                            <td><b>{{ i.5 }}</b></td>
+                            <td><b>{{ i.4 }}cm</b></td>
+                        </tr>                 
+                    {% endfor %}      
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <br>
+            <br>
+            <div class="container text-center">
+            <h2><strong>No hay eventos disponibles</strong></h2>
+            <br>
+            <br>
+            <h4><strong><i>Conectese y utilice el autito para 
+            obtener estadisticas de uso</i></strong></h4>
+        </div>
+        {% endif %}    
+
+    </div>
+
+   <!--Footer-->
+    {% if eventos %}
+        <footer class="footer" style="margin-top: 10px">
+    {% else %}
+        <footer class="footer" style="margin-top: 230px">
+    {% endif %}
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-2">
+                    <img class="img-fluid footerImg" src="static/assets/logo1.jpg" alt="Logo" height="90" width="100">
+                </div>
+                <div class="col-sm-2 col-sm-offset-8">
+                    <p class="float-right"><strong>Alvarez - Cristofano 2017</strong> </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+
+</html>
