@@ -5,7 +5,7 @@ import socket
 from flask_socketio import SocketIO, emit
 import math
 import datetime
-import time
+import time, threading
 
 # Create a TCP/IP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -19,8 +19,30 @@ try:
     print("\n[CONECTADO]\n")
     connected = True
 except socket.error as e:
-    print("\nERROR...\n")
+    sock.close()
+    print("\nERROR...\n", e)
 
+
+
+# def testConnection():
+#     try:
+#         data = sock.recv(128)
+#         if not data:
+#             connected = False
+#         else:
+#             connected = True
+#     except socket.error as e:
+#         print(e)
+#         connected = False
+
+# def test_connection_target():
+#   while True:
+#     testConnection()
+#     time.sleep(10)
+
+# t = threading.Thread(target=test_connection_target)
+# t.daemon = True
+# t.start()
 
 
 direction = 0
@@ -167,19 +189,14 @@ def control():
 @socketio.on('connection', namespace='/sock')
 def handle_connection():
     global sock
-    c = "c"
     try:
-        if (sock.sendall(c.encode('utf-8')) is not None):
-            try:
-                print("\n[ERROR]: sendall devuelve 0, conectando de nuevo...\n")
-                sock.connect(server_address)
-            except socket.error as err:
-                print(err)
-        print('\n[SUCCESS] Connect to ESP from SocketIO\n')
-        emit('connection success', {'data': "conectado"})
+        print("\nConectandose con el ESP...\n")
+        sock.connect(server_address)
+        print("\n[CONECTADO]\n")
+        connected = True
     except socket.error as e:
-        print('\n[ERROR] Connect to ESP from SocketIO\n')
-        emit('connection error', {'error': str(e)})
+        sock.close()
+        print("\nERROR...\n", e)
 
 @socketio.on('control', namespace='/sock')
 def handle_controlling(order):

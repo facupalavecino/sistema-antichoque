@@ -22,6 +22,29 @@
     <script type="text/javascript" src="{{url_for('static', filename='scripts/socket.io.min.js')}}"></script>
 </head>
 
+<style>
+    .command-buttons{
+        width: 80%;
+        margin: auto;
+    }
+
+    .buttons-container{
+        display: flex;
+        wrap: nowrap;
+        justify-content: space-evenly;
+    }
+
+    .button-flex{
+        flex:1;
+    }
+
+    .my-btn{
+        height: 100%;
+        width: 100%;
+    }
+
+</style>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand mb-0 h1" href="#">Sistema Antichoque</a>
@@ -50,42 +73,48 @@
                         </div>
                     </div>
                 </div>
-            </div> 
-            <div class="row justify-content-center">
-                <div class="col-md-2">
-                    <a class="btn btn-primary btn-lg" role="button" id="botonAccess">Access</a>
-                </div>
-                <div class="col-md-2">
-                    <a class="btn btn-primary btn-lg" role="button" id="botonConnect">Conectarse al vehículo</a>
-                </div>
             </div>
-            <div class="row justify-content-center">
-                <div class="col-md-2">
-                    <a class="btn btn-primary btn-lg" role="button" id="botonMarcha-">Marcha -</a>
+            <div class="command-buttons">
+                <div class="buttons-container" style="padding-bottom: 20px">
+                    <div>
+                        <a class="btn btn-primary btn-lg" role="button" id="botonAccess">Access</a>
+                    </div>
+                    <div>
+                        <a class="btn btn-primary btn-lg" role="button" id="botonConnect">Conectar</a>
+                    </div>
+                </div> 
+                <div class="buttons-container">
+
+                    <div class="button-flex">
+                        <a class="btn btn-primary btn-lg my-btn" role="button" id="botonMarcha-">Marcha -</a>
+                    </div>
+                    <div class="button-flex">
+                        <a class="btn btn-success btn-lg my-btn" role="button" id="botonAvanzar">Avanzar</a>
+                    </div>
+                    <div class="button-flex">
+                        <a class="btn btn-primary btn-lg my-btn" role="button" id="botonMarchaUp">Marcha +</a>
+                    </div>                
                 </div>
-                <div class="col-md-2">
-                    <a class="btn btn-success btn-lg" role="button" id="botonAvanzar">Avanzar</a>
+                <div class="buttons-container">
+                        <div class="button-flex">
+                            <a class="btn btn-success btn-lg my-btn" role="button" id="botonIzquierda">Izquierda</a>
+                        </div>
+                        <div class="button-flex">
+                            <a class="btn btn-danger btn-lg my-btn" role="button" id="botonFrenar">Frenar</a>
+                        </div>
+                        <div class="button-flex">
+                            <a class="btn btn-success btn-lg my-btn" role="button" id="botonDerecha">Derecha</a>
+                        </div>
                 </div>
-                <div class="col-md-2">
-                    <a class="btn btn-primary btn-lg" role="button" id="botonMarchaUp">Marcha +</a>
-                </div>                
+                <div class="buttons-container">
+                        <div class="button-flex"> </div>
+                        <div class="button-flex">
+                            <a class="btn btn-success btn-lg my-btn" role="button" id="botonRetroceder">Retroceder</a>
+                        </div>
+                        <div class="button-flex"> </div>
+                </div>
+
             </div>
-            <div class="row justify-content-center">
-                <div class="col-md-2">
-                    <a class="btn btn-danger btn-lg" role="button" id="botonFrenar">Frenar</a>
-                </div>
-            </div> 
-            <div class="row justify-content-center">
-                <div class="col-md-2">
-                    <a class="btn btn-primary btn-lg" role="button" id="botonIzquierda">Izquierda</a>
-                </div>
-                <div class="col-md-2">
-                    <a class="btn btn-success btn-lg" role="button" id="botonRetroceder">Retroceder</a>
-                </div>
-                <div class="col-md-2">
-                    <a class="btn btn-primary btn-lg" role="button" id="botonDerecha">Derecha</a>
-                </div>
-            </div> 
         </div>
 
     <div style="padding-top:100px; height: 250px;"></div>

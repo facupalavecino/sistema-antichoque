@@ -57,7 +57,7 @@ void loop(void)
 
   // MEDICION DE DISTANCIA Y FRENO DE EMEGENCIA
   /*Si es tiempo de medir la distancia*/
-  /*if (frecuency ==  F_Sensed){
+  if (frecuency ==  F_Sensed){
      Serial.print("Check de distancia\n");
      distance_front=sensor_distance.FrontMeasurement();
      Serial.print("front:");
@@ -69,14 +69,14 @@ void loop(void)
      Serial.print("\r\n");
 
      /*Si voy para adelante y hay poca distancia*/
-  /*if (distance_front <= CRITIC_DISTANCE && direction == 1){ //REVISAR SI NO MOLESTA PARA DOBLAR
+  if (distance_front <= CRITIC_DISTANCE && direction == 1){ //REVISAR SI NO MOLESTA PARA DOBLAR
       control.parar();
       direction=0;
       speed=0;
       Serial.print("STOP FRONT\r\n");
     }else{
     /*Si voy para atrás y queda poca distancia*/
-  /*   if (distance_back <= CRITIC_DISTANCE && direction == 2){
+     if (distance_back <= CRITIC_DISTANCE && direction == 2){
          control.parar();
          direction=0;
          speed=0;
@@ -84,7 +84,7 @@ void loop(void)
       }
 
     }
-    }*/
+    }
 
   // FIN MEDICION DE DISTANCIA Y FRENO DE EMEGENCIA
 
@@ -174,7 +174,7 @@ void loop(void)
 
   // CONFIGURACION DE TIEMPOS
 
-  delay(1000); //espera entre iteraciones
+  delay(200); //espera entre iteraciones
 
   frecuency++;//Aumento de la iteracion realizada
   if (frecuency == 4) {

@@ -74,7 +74,6 @@ $( document ).ready(function () {
         $('#notification').removeClass("alert-danger");
         $('#notification').removeClass("alert-dark");
         $('#notification').addClass("alert-success");
-        $('#notification').text(respuesta.data + "al vehículo");
     });
 
     socket.on('connection error', function(error){
