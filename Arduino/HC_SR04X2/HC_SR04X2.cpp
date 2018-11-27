@@ -3,6 +3,10 @@
 HC_SR04X2::HC_SR04X2(){} //Constructor: no tiene que hacer nada en especial
 int FrontStart_pin;
 int FrontData_pin;
+int RightStart_pin;
+int RightData_pin;
+int LeftStart_pin;
+int LeftData_pin;
 int BackStart_pin; 
 int BackData_pin;  
 
@@ -16,6 +20,30 @@ void HC_SR04X2::FrontSetup(int FrontPin_start, int FrontPin_data)
   	pinMode(FrontPin_data, INPUT);//Se establece el pin como entrada el ping de ECHO
   	FrontData_pin=FrontPin_data;//Se almacena en variable interna el valor del pin
 }
+
+void HC_SR04X2::RightSetup(int RightPin_start, int RightPin_data)
+{
+    //Recibe el numero de pin por el cual se envirá el pulso de start al sensor
+    //Recibe el pin por el cual se obtendrá la informacion que envia el sensor
+    //Establecer pin como salida
+    pinMode(RightPin_start, OUTPUT);//Se establece como salida el pin TRIG
+    RightStart_pin=RightPin_start;//Se almacena en variable interna el valor del pin
+    pinMode(RightPin_data, INPUT);//Se establece el pin como entrada el ping de ECHO
+    RightData_pin=RightPin_data;//Se almacena en variable interna el valor del pin
+}
+
+void HC_SR04X2::LeftSetup(int LeftPin_start, int LeftPin_data)
+{
+    //Recibe el numero de pin por el cual se envirá el pulso de start al sensor
+    //Recibe el pin por el cual se obtendrá la informacion que envia el sensor
+    //Establecer pin como salida
+    pinMode(LeftPin_start, OUTPUT);//Se establece como salida el pin TRIG
+    LeftStart_pin=LeftPin_start;//Se almacena en variable interna el valor del pin
+    pinMode(LeftPin_data, INPUT);//Se establece el pin como entrada el ping de ECHO
+    LeftData_pin=LeftPin_data;//Se almacena en variable interna el valor del pin
+}
+
+
 
 void HC_SR04X2::BackSetup(int BackPin_start, int BackPin_data)
 {
@@ -46,6 +74,41 @@ float HC_SR04X2::FrontMeasurement()
   	return (distance); //Se retonra le valor de la medición
 }
 
+float HC_SR04X2::RightMeasurement()
+{
+    long time;//vaiable necesaria para almacenar el tiempo
+    float distance;//vaiable necesaria para almacenar la distancia
+    digitalWrite(RightStart_pin,HIGH);//Inicializacion del pulso de start
+    delayMicroseconds(10);
+    digitalWrite(RightStart_pin, LOW);//Finalizacion del pulso de start
+    // medición el pulso de respuesta
+    time = (pulseIn(RightData_pin, HIGH)/2);
+    // dividido por 2 porque es el tiempo que el sonido tarda en ir y en volver
+    // ahora calcularemos la distancia en cm
+    // sabiendo que el espacio es igual a la velocidad por el tiempo,
+    //  que la velocidad del sonido es de 343m/s y que el tiempo se encuentra en
+    // tenemos en millonesimas de segundo
+    distance = float(time * 0.0343);
+    return (distance); //Se retonra le valor de la medición
+}
+
+float HC_SR04X2::LeftMeasurement()
+{
+    long time;//vaiable necesaria para almacenar el tiempo
+    float distance;//vaiable necesaria para almacenar la distancia
+    digitalWrite(LeftStart_pin,HIGH);//Inicializacion del pulso de start
+    delayMicroseconds(10);
+    digitalWrite(LeftStart_pin, LOW);//Finalizacion del pulso de start
+    // medición el pulso de respuesta
+    time = (pulseIn(LeftData_pin, HIGH)/2);
+    // dividido por 2 porque es el tiempo que el sonido tarda en ir y en volver
+    // ahora calcularemos la distancia en cm
+    // sabiendo que el espacio es igual a la velocidad por el tiempo,
+    // que la velocidad del sonido es de 343m/s y que el tiempo se encuentra en
+    // tenemos en millonesimas de segundo
+    distance = float(time * 0.0343);
+    return (distance); //Se retonra le valor de la medición
+}
 
 float HC_SR04X2::BackMeasurement()
 {

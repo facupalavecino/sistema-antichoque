@@ -9,10 +9,19 @@
 
 /*DEFINICIONES DE CONFIGURACION*/
 #define BAUDRATE            115200
-#define HC_SR04FRONT_OUT    12 // Numero de pin por el cual se envia el pulso de START
-#define HC_SR04FRONT_IN     13 // Numero de pin por el cual se recibe informacion de la medioción
-#define HC_SR04BACK_OUT     9 // Numero de pin por el cual se envia el pulso de START
-#define HC_SR04BACK_IN      8 // Numero de pin por el cual se recibe informacion de la medioción
+
+#define HC_SR04FRONT_OUT    8 // Numero de pin por el cual se envia el pulso de START (trig)
+#define HC_SR04FRONT_IN     9 // Numero de pin por el cual se recibe informacion de la medioción (echo)
+
+#define HC_SR04RIGHT_OUT    10 // Numero de pin por el cual se envia el pulso de START (trig)
+#define HC_SR04RIGHT_IN     11 // Numero de pin por el cual se recibe informacion de la medioción (echo)
+
+#define HC_SR04LEFT_OUT     12 // Numero de pin por el cual se envia el pulso de START (trig)
+#define HC_SR04LEFT_IN      13 // Numero de pin por el cual se recibe informacion de la medioción (echo)
+
+#define HC_SR04BACK_OUT     A0 // Numero de pin por el cual se envia el pulso de START (trig)
+#define HC_SR04BACK_IN      A1 // Numero de pin por el cual se recibe informacion de la medioción (echo)
+
 #define TAM_BUFFER          128
 #define CRITIC_DISTANCE     40
 
@@ -32,6 +41,8 @@ uint32_t frecuency = 1; //variables que nos permite implementar un porgrmacion d
 String data_send;
 //variables de almacenamiento de distancias
 float distance_front = 0;
+float distance_right = 0;
+float distance_left = 0;
 float distance_back = 0;
 //variables de desplazamiento -> el vehiculo lee estas variables y decide su movimiento
 uint8_t direction = 0; // 0=stop, 1=front, 2=back //si va para adelante o para atras
@@ -45,8 +56,13 @@ void setup(void)
   wifi.restart();
   delay(3000);
   wifi.Configuration();
-  sensor_distance.BackSetup(HC_SR04BACK_OUT, HC_SR04BACK_IN);
+  pinMode(HC_SR04BACK_OUT, OUTPUT);
+  pinMode(HC_SR04BACK_OUT, INPUT);
   sensor_distance.FrontSetup(HC_SR04FRONT_OUT, HC_SR04FRONT_IN);
+  sensor_distance.RightSetup(HC_SR04RIGHT_OUT, HC_SR04RIGHT_IN);
+  sensor_distance.LeftSetup(HC_SR04LEFT_OUT, HC_SR04LEFT_IN);
+  sensor_distance.BackSetup(HC_SR04BACK_OUT, HC_SR04BACK_IN);
+
   Serial.print("\n");
   Serial.print(wifi.getLocalIP());
   Serial.print("\n");
@@ -57,34 +73,56 @@ void loop(void)
 
   // MEDICION DE DISTANCIA Y FRENO DE EMEGENCIA
   /*Si es tiempo de medir la distancia*/
-  if (frecuency ==  F_Sensed){
-     Serial.print("Check de distancia\n");
-     distance_front=sensor_distance.FrontMeasurement();
-     Serial.print("front:");
-     Serial.print(sensor_distance.FrontMeasurement());
-     Serial.print("\r\n");
-     distance_back=sensor_distance.BackMeasurement();
-     Serial.print("back:");
-     Serial.print(sensor_distance.BackMeasurement());
-     Serial.print("\r\n");
+  if (frecuency ==  F_Sensed) {
+    Serial.print("Check de distancia\n");
+    distance_front = sensor_distance.FrontMeasurement();
+    Serial.print("front:");
+    Serial.print(distance_front);
+    Serial.print("\r\n");
+    distance_right = sensor_distance.RightMeasurement();
+    Serial.print("right:");
+    Serial.print(distance_right);
+    Serial.print("\r\n");
+    distance_left = sensor_distance.LeftMeasurement();
+    Serial.print("left:");
+    Serial.print(distance_left);
+    Serial.print("\r\n");
+    distance_back = sensor_distance.BackMeasurement();
+    Serial.print("back:");
+    Serial.print(distance_back);
+    Serial.print("\r\n");
 
-     /*Si voy para adelante y hay poca distancia*/
-  if (distance_front <= CRITIC_DISTANCE && direction == 1){ //REVISAR SI NO MOLESTA PARA DOBLAR
-      control.parar();
-      direction=0;
-      speed=0;
-      Serial.print("STOP FRONT\r\n");
-    }else{
-    /*Si voy para atrás y queda poca distancia*/
-     if (distance_back <= CRITIC_DISTANCE && direction == 2){
-         control.parar();
-         direction=0;
-         speed=0;
-         Serial.print("STOP BACKT\r\n");
+    /*Si voy para adelante y hay poca distancia*/
+    if (direction == 1) { //REVISAR SI NO MOLESTA PARA DOBLAR
+      if (distance_front <= CRITIC_DISTANCE) {
+        control.parar();
+        direction = 0;
+        speed = 0;
+        Serial.print("STOP FRONT\r\n");
+      }
+      if  (distance_right <= CRITIC_DISTANCE) {
+        control.parar();
+        direction = 0;
+        speed = 0;
+        Serial.print("STOP RIGHT\r\n");
+      }
+      if (distance_left <= CRITIC_DISTANCE) {
+        control.parar();
+        direction = 0;
+        speed = 0;
+        Serial.print("STOP LEFT\r\n");
+      }
+    } else {
+      /*Si voy para atrás y queda poca distancia*/
+      if (distance_back <= CRITIC_DISTANCE && direction == 2) {
+        control.parar();
+        direction = 0;
+        speed = 0;
+        Serial.print("STOP BACK\r\n");
       }
 
     }
-    }
+  }
 
   // FIN MEDICION DE DISTANCIA Y FRENO DE EMEGENCIA
 
