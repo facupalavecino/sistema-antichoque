@@ -31,7 +31,7 @@
 #define ENCRYPTION  0   //modo de enciptacion(ninguno)
 #define CHANNEL     3   //canal 3
 #define TAM_BUFFER  128   //canal 3
-#define SERVER_TIMEOUT  5000   //canal 3
+#define SERVER_TIMEOUT  500000   //canal 3
 
 //FIN AGREGADO
 
