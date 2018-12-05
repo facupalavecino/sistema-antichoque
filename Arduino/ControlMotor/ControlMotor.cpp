@@ -43,27 +43,29 @@ void ControlMotor::retroceder(){
   digitalWrite(motorDerechoB,LOW);
   digitalWrite(motorIzquierdoA,HIGH);
   digitalWrite(motorIzquierdoB,LOW);
-  analogWrite(pwmDerecho,110);
-  analogWrite(pwmIzquierdo,170);
+  analogWrite(pwmDerecho,120);
+  analogWrite(pwmIzquierdo,85);
 
 }
-void ControlMotor::avanzar(int velocidad){ 
+void ControlMotor::avanzar(int v_left, int v_right){ 
   digitalWrite(motorDerechoA,LOW);
   digitalWrite(motorDerechoB,HIGH);
   digitalWrite(motorIzquierdoA,LOW);
   digitalWrite(motorIzquierdoB,HIGH);
-  if(velocidad==1){
-    analogWrite(pwmDerecho, 98);
-    analogWrite(pwmIzquierdo,140);
-  }
-  else if(velocidad==2){
-    analogWrite(pwmDerecho, 103);
-    analogWrite(pwmIzquierdo,150);
-  }
-  else if(velocidad==3){
-    analogWrite(pwmDerecho, 108);
-    analogWrite(pwmIzquierdo,160);
-  }
+  // if(velocidad==1){
+  //   analogWrite(pwmDerecho, 220);
+  //   analogWrite(pwmIzquierdo,220);
+  // }
+  // else if(velocidad==2){
+  //   analogWrite(pwmDerecho, 103);
+  //   analogWrite(pwmIzquierdo,150);
+  // }
+  // else if(velocidad==3){
+  //   analogWrite(pwmDerecho, 108);
+  //   analogWrite(pwmIzquierdo,160);
+  // }
+  analogWrite(pwmDerecho, v_right);
+  analogWrite(pwmIzquierdo, v_left);
   
 
 }
@@ -72,8 +74,8 @@ void ControlMotor::girarIzquierda(){
   digitalWrite(motorDerechoB,LOW);
   digitalWrite(motorIzquierdoA,LOW);
   digitalWrite(motorIzquierdoB,HIGH);
-  analogWrite(pwmDerecho,122);
-  analogWrite(pwmIzquierdo,122);
+  analogWrite(pwmDerecho,90);
+  analogWrite(pwmIzquierdo,90);
 
 }
 void ControlMotor::girarDerecha(){ 
@@ -81,8 +83,8 @@ void ControlMotor::girarDerecha(){
   digitalWrite(motorDerechoB,HIGH);
   digitalWrite(motorIzquierdoA,LOW);
   digitalWrite(motorIzquierdoB,LOW);
-  analogWrite(pwmDerecho,80); 
-  analogWrite(pwmIzquierdo,80);
+  analogWrite(pwmDerecho,90); 
+  analogWrite(pwmIzquierdo,90);
 
 }
 void ControlMotor::parar(){ 
