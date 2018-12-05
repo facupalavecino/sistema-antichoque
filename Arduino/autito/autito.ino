@@ -26,7 +26,7 @@
 #define CRITIC_DISTANCE     40
 
 /*DEFINICIONES DE TIEMPO DE EJECUCION*/
-#define F_Sensed              27 //revisar valores
+#define F_Sensed              53 //revisar valores
 #define F_Communication       50
 #define F_Movement            97
 #define F_Testing             2000  
@@ -51,49 +51,57 @@ uint8_t speed=0;     // 0=stop, 1=slow, 2=fast ,3=fasta&furious
 uint8_t turn=0;      // 0=forward, 1=left, 2=right
 
 bool order = false;
+unsigned long timerTotal;
+unsigned long timerTotalAux;
+unsigned long timerMedicion;
+unsigned long timerMedicionAux;
 
 void setup(void)
 {
-  
+  timerTotal = millis();
+  timerMedicion = millis();
     Serial.begin(BAUDRATE);
-    Serial.print("setup begin\r\n");
+    Serial.print("Iniciando...\r\n");
     wifi.restart();
     wifi.Configuration();
     pinMode(HC_SR04BACK_OUT, OUTPUT);
     pinMode(HC_SR04BACK_IN, INPUT);
     sensor_distance.FrontSetup(HC_SR04FRONT_OUT, HC_SR04FRONT_IN);
     sensor_distance.RightSetup(HC_SR04RIGHT_OUT, HC_SR04RIGHT_IN);
-  sensor_distance.LeftSetup(HC_SR04LEFT_OUT, HC_SR04LEFT_IN);
+    sensor_distance.LeftSetup(HC_SR04LEFT_OUT, HC_SR04LEFT_IN);
     sensor_distance.BackSetup(HC_SR04BACK_OUT, HC_SR04BACK_IN);
     Serial.print("\n");
     Serial.print(wifi.getLocalIP());
     Serial.print("\n");
-    Serial.print("setup end\r\n");
+    Serial.print("Setup finalizado. Espere 5 segundos para empezar...\r\n");
+    delay(2);
 }
  
 void loop(void)
-{
-    
-     
+{         
    // MEDICION DE DISTANCIA Y FRENO DE EMEGENCIA
    if (frecuency % F_Sensed == 0){ //SI es momento de sensar la distancia PROBAMOS CON || (direction ==1)) && (frecuency % F_Movement != 0)
+
+      timerMedicionAux = timerMedicion;
+      timerMedicion = millis();
+      Serial.print("\n\nUna medicion cada ");
+      Serial.print(timerMedicion - timerMedicionAux);
+      Serial.print(" milisegundos\n\n");
+
       distance_front = sensor_distance.FrontMeasurement();
-      Serial.print("\r\n");
-      Serial.print("front:");
+      Serial.print("\n");
+      Serial.print("\n****** Front:");
       Serial.print(distance_front);
-      Serial.print("\r\n");
       distance_right = sensor_distance.RightMeasurement();
-      Serial.print("right:");
-      Serial.print(distance_right);
-      Serial.print("\r\n");
+       Serial.print("\n****** Right:");
+       Serial.print(distance_right);
       distance_left = sensor_distance.LeftMeasurement();
-      Serial.print("left:");
-      Serial.print(distance_left);
-      Serial.print("\r\n");
+       Serial.print("\n****** Left:");
+       Serial.print(distance_left);
       distance_back = sensor_distance.BackMeasurement();
-      Serial.print("back:");
-      Serial.print(distance_back);
-      Serial.print("\r\n");
+       Serial.print("\n****** Back:");
+       Serial.print(distance_back);
+       Serial.print("\n\n");
       
       if (direction == 1) { //REVISAR SI NO MOLESTA PARA DOBLAR
         if (distance_front <= CRITIC_DISTANCE) {
@@ -169,47 +177,39 @@ void loop(void)
    if (frecuency % F_Communication == 0 ){ //SI es momento de procesar la comunicacion
           len=wifi.Receive_data(buffer);
           if (len == 3){ //SI SE RECIBE ORDEN
-                     order = true;
-                     Serial.print("ORDEN");
-                     Serial.print("\r\n");
-               //REcibí un mensaje de desplazamiento, almacenamiento de los movimientos que decidió el usuario
-                     direction=buffer[0]-48; //se resta 48, pues el valro que se recibe está en ascci
-                     speed=buffer[1]-48;
-                     turn=buffer[2]-48;
-                     Serial.print("\r\n");
-                     Serial.print(direction);
-                     Serial.print(speed);
-                     Serial.print(turn);
-                     Serial.print("\r\n");
-
+            order = true;
+            Serial.print("ORDEN");
+            Serial.print("\r\n");
+       //REcibí un mensaje de desplazamiento, almacenamiento de los movimientos que decidió el usuario
+            direction=buffer[0]-48; //se resta 48, pues el valro que se recibe está en ascci
+            speed=buffer[1]-48;
+            turn=buffer[2]-48;
+            Serial.print("\r\n");
+            Serial.print(direction);
+            Serial.print(speed);
+            Serial.print(turn);
+            Serial.print("\r\n");
           }      
           if (len == 1){ //SI PIDE INFORMACION   
-               Serial.print("Estadisticas");
-               Serial.print("\r\n");
-               data_send=(String(distance_front, 0)+'/'+String(distance_back, 0)+'/'+String(direction,DEC)+'/'+String(speed,DEC)+'/'+String(turn,DEC)+'/');//preparación de la informacio na enviar   
-               for(len=0; len<data_send.length();len++){ // Se coloca el string en el buffer para su proximo envio
-                     if(data_send[len]!= 32){ //en el caso de que la conversion a string me de un caracater espacio, lo reemplazo por '0'(En la práctica sucede)
-                          buffer[len]=data_send[len];
-                     }else{
-                          buffer[len]='0'; 
-                     }
-                //Serial.print((char)buffer[len]);
-                 }
-               //Serial.print("\r\n");
-               //envio del estado
-               Serial.print(data_send.length());
-                Serial.print("\r\n"); 
-               
-                wifi.Send_data(buffer,data_send.length());
-                Serial.print("Envio de datos");
-                Serial.print("\r\n");
-                for (len=0;len<data_send.length();len++){
-                   Serial.print((char)buffer[len]);
-                 }
-                 Serial.print("\r\n");
-            
-            
-            }
+              Serial.print("Estadisticas");
+              Serial.print("\r\n");
+              data_send=(String(distance_front, 0)+'/'+String(distance_back, 0)+'/'+String(direction,DEC)+'/'+String(speed,DEC)+'/'+String(turn,DEC)+'/');//preparación de la informacio na enviar   
+              
+              for(len=0; len<data_send.length();len++){ // Se coloca el string en el buffer para su proximo envio
+                if(data_send[len]!= 32){ //en el caso de que la conversion a string me de un caracater espacio, lo reemplazo por '0'(En la práctica sucede)
+                     buffer[len]=data_send[len];
+                }else{
+                     buffer[len]='0'; 
+                }
+              }
+
+              wifi.Send_data(buffer,data_send.length());
+              Serial.print("\n\nDatos enviados al servidor. Se imprimen aca tambien\n\n");
+              for (len=0;len<data_send.length();len++){
+                 Serial.print((char)buffer[len]);
+              }
+              Serial.print("\r\n");           
+          }
           
    }
    // FIN COMUNICACION
@@ -225,10 +225,15 @@ void loop(void)
 
 // CONFIGURACION DE TIEMPOS
  //delayMicroseconds(1000);
-  // delay(1); //espera entre iteraciones
+ //delay(28); //espera entre iteraciones
 
   frecuency++;//Aumento de la iteracion realizada
   if (frecuency == 6300){
+      timerTotalAux = timerTotal;
+      timerTotal = millis();
+      Serial.print("\n\nReset de la frecuencia cada ");
+      Serial.print(timerTotal - timerTotalAux);
+      Serial.print(" segundos\n\n");
       frecuency=0;
   }
 // FIN CONFIGURACION DE TIEMPOS    
