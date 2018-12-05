@@ -53,7 +53,7 @@ class ControlMotor{
     ControlMotor(int md1, int md2, int mi1, int mi2, int pwmD, int pwmI);  // Asignamos los pines
     void girarDerecha();
     void girarIzquierda();
-    void avanzar(int velocidad);
+    void avanzar(int v_left, int v_right);
     void retroceder();
     void parar();
  
