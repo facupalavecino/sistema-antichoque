@@ -32,7 +32,7 @@
 #define F_Testing             2000  
 
 /*DECLARACION DE VARIABLES GLOBALES*/
-ControlMotor control(2,3,7,4,5,6); // MotorDer1,MotorDer2,MotorIzq1,MotorIzq2,PWM_Derecho,PWM_Izquierdo
+ControlMotor control(2,3,7,4,6,5); // MotorDer1,MotorDer2,MotorIzq1,MotorIzq2,PWM_Derecho,PWM_Izquierdo
 HC_SR04X2 sensor_distance; 
 ESP8266 wifi(Serial);
 
@@ -50,6 +50,8 @@ uint8_t direction=0; // 0=stop, 1=front, 2=back //si va para adelante o para atr
 uint8_t speed=0;     // 0=stop, 1=slow, 2=fast ,3=fasta&furious     
 uint8_t turn=0;      // 0=forward, 1=left, 2=right
 
+bool order = false;
+
 void setup(void)
 {
   
@@ -61,7 +63,7 @@ void setup(void)
     pinMode(HC_SR04BACK_IN, INPUT);
     sensor_distance.FrontSetup(HC_SR04FRONT_OUT, HC_SR04FRONT_IN);
     sensor_distance.RightSetup(HC_SR04RIGHT_OUT, HC_SR04RIGHT_IN);
-    sensor_distance.LeftSetup(HC_SR04LEFT_OUT, HC_SR04LEFT_IN);
+  sensor_distance.LeftSetup(HC_SR04LEFT_OUT, HC_SR04LEFT_IN);
     sensor_distance.BackSetup(HC_SR04BACK_OUT, HC_SR04BACK_IN);
     Serial.print("\n");
     Serial.print(wifi.getLocalIP());
@@ -74,8 +76,9 @@ void loop(void)
     
      
    // MEDICION DE DISTANCIA Y FRENO DE EMEGENCIA
-   if (frecuency % F_Sensed == 0){ //SI es momento de sensar la distancia
+   if (frecuency % F_Sensed == 0){ //SI es momento de sensar la distancia PROBAMOS CON || (direction ==1)) && (frecuency % F_Movement != 0)
       distance_front = sensor_distance.FrontMeasurement();
+      Serial.print("\r\n");
       Serial.print("front:");
       Serial.print(distance_front);
       Serial.print("\r\n");
@@ -95,18 +98,22 @@ void loop(void)
       if (direction == 1) { //REVISAR SI NO MOLESTA PARA DOBLAR
         if (distance_front <= CRITIC_DISTANCE) {
           control.parar();
+          order = false;
           direction = 0;
           speed = 0;
           Serial.print("STOP FRONT\r\n");
+
         }
         if  (distance_right <= CRITIC_DISTANCE) {
           control.parar();
+          order = false;
           direction = 0;
           speed = 0;
           Serial.print("STOP RIGHT\r\n");
         }
         if (distance_left <= CRITIC_DISTANCE) {
           control.parar();
+          order = false;
           direction = 0;
           speed = 0;
           Serial.print("STOP LEFT\r\n");
@@ -114,6 +121,7 @@ void loop(void)
       } else {
         if (distance_back <= CRITIC_DISTANCE && direction == 2){ //si hay poca distancia hacia atras y voy hacia atras
             control.parar();// no se que es ese 10
+            order = false;
             direction=0;
             speed=0;
             Serial.print("STOP BACK\r\n");
@@ -125,31 +133,34 @@ void loop(void)
 
 
   // DEZPLAZAMIENTO
-   if (frecuency % F_Movement == 0 ){ //Si es momento de realizar un movimiento
-          if( direction == 1 && speed != 0  ) { // Si voy hacia adelante
+   if (frecuency % F_Movement == 0){ //Si es momento de realizar un movimiento
+      if (order){
+          if( direction == 1 && speed != 0) { // Si voy hacia adelante
               Serial.print("ADELANTE\r\n");
               if( turn==0){ // si voy hacia adelante en linea recta
-                  control.avanzar(speed);
+                  control.avanzar(85,125);
               }
               if( turn==1){ // si voy hacia adelante en hacia la izqueirda
                   control.girarIzquierda();
               }
               if( turn==2){ // si voy hacia adelante en hacia la izqueirda
                   control.girarDerecha();
-              }          
+              }
+                     
             }
-          if( direction == 2 && speed != 0  ) { // Si voy hacia atrás
-              Serial.print("ATRAS\r\n");
-              control.retroceder();
-           }
-          if (direction == 0 || speed == 0){
-              control.parar();
-           }
+            if( direction == 2 && speed != 0  ) { // Si voy hacia atrás
+                Serial.print("ATRAS\r\n");
+                control.retroceder();
+             }
+            if (direction == 0 || speed == 0){
+                control.parar();
+             }
+          order = false;
+        }
       Serial.print(direction);
       Serial.print(speed);
       Serial.print(turn);
-      Serial.print("\r\n");
-   
+      Serial.print("\r\n");   
    }
     // FIN DEZPLAZAMIENTO
 
@@ -158,17 +169,19 @@ void loop(void)
    if (frecuency % F_Communication == 0 ){ //SI es momento de procesar la comunicacion
           len=wifi.Receive_data(buffer);
           if (len == 3){ //SI SE RECIBE ORDEN
+                     order = true;
                      Serial.print("ORDEN");
                      Serial.print("\r\n");
                //REcibí un mensaje de desplazamiento, almacenamiento de los movimientos que decidió el usuario
                      direction=buffer[0]-48; //se resta 48, pues el valro que se recibe está en ascci
                      speed=buffer[1]-48;
                      turn=buffer[2]-48;
+                     Serial.print("\r\n");
                      Serial.print(direction);
                      Serial.print(speed);
                      Serial.print(turn);
-                     
-                 
+                     Serial.print("\r\n");
+
           }      
           if (len == 1){ //SI PIDE INFORMACION   
                Serial.print("Estadisticas");
