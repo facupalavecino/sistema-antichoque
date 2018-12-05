@@ -53,8 +53,8 @@ void ControlMotor::avanzar(int velocidad){
   digitalWrite(motorIzquierdoA,LOW);
   digitalWrite(motorIzquierdoB,HIGH);
   if(velocidad==1){
-    analogWrite(pwmDerecho, 220);
-    analogWrite(pwmIzquierdo,220);
+    analogWrite(pwmDerecho, 98);
+    analogWrite(pwmIzquierdo,140);
   }
   else if(velocidad==2){
     analogWrite(pwmDerecho, 103);
@@ -81,8 +81,8 @@ void ControlMotor::girarDerecha(){
   digitalWrite(motorDerechoB,HIGH);
   digitalWrite(motorIzquierdoA,LOW);
   digitalWrite(motorIzquierdoB,LOW);
-  analogWrite(pwmDerecho,180); 
-  analogWrite(pwmIzquierdo,180);
+  analogWrite(pwmDerecho,80); 
+  analogWrite(pwmIzquierdo,80);
 
 }
 void ControlMotor::parar(){ 

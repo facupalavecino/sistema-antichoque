@@ -1,5 +1,4 @@
 function loadIndex() {
-    console.log("loadIndex");
     $.get("/access", function(data) {	 
         if(data.error!= "Sin conexion"){
             if(data.error == 'Perdida de conexion'){
@@ -68,84 +67,10 @@ function loadIndex() {
     });
 }
 
-$( document ).ready(function () {
-    var socket = io.connect('http://' + document.domain + ':' + location.port + '/sock');
-    socket.on('connection success', function(respuesta) {
-        $('#notification').removeClass("alert-danger");
-        $('#notification').removeClass("alert-dark");
-        $('#notification').addClass("alert-success");
-    });
+// $( document ).ready(function () {
+//     setInterval(loadIndex, 2500);
+// });
 
-    socket.on('connection error', function(error){
-        $('#notification').removeClass("alert-success");
-        $('#notification').removeClass("alert-dark");
-        $('#notification').addClass("alert-danger");
-        $('#notification').text("Sin conexión con el vehículo");
-        $('#notification').append("<p> ERROR: "+error.error+"</p>");
 
-    });
-
-    socket.on('fetch success', function(r){
-        console.log("SUCCESS");
-        $('#marcha').text(r.marcha);
-        $('#state').text(r.state);
-        $('#front_distance').text(r.front_distance + "cm");
-        $('#back_distance').text(r.back_distance + "cm");
-    });
-
-    socket.on('fetch error', function(){
-        console.log("ERROR");
-        $('#marcha').text("Error");
-        $('#state').text("Error");
-        $('#front_distance').text("Error");
-        $('#back_distance').text("Error");
-    });
-
-    $('#botonAccess').click(function(){
-        console.log("EMITED");
-        socket.emit('fetch');
-        return null;
-    });
-
-    $('#botonConnect').click(function(){
-        socket.emit('connection');
-        return null;
-    });
-
-    $('#botonAvanzar').click(function(){
-        socket.emit('control',{data:"Avanzar"});
-        return null;
-    });
-
-    $('#botonFrenar').click(function(){
-        socket.emit('control',{data:"Frenar"});
-        return null;
-    });
-
-    $('#botonDerecha').click(function(){
-        socket.emit('control',{data:"Derecha"});
-        return null;
-    });
-
-    $('#botonIzquierda').click(function(){
-        socket.emit('control',{data:"Izquierda"});
-        return null;
-    });
-
-    $('#botonRetroceder').click(function(){
-        socket.emit('control',{data:"Reversa"});
-        return null;
-    });
-
-    $('#botonMarcha-').click(function(){
-        socket.emit('control',{data:"Marcha-"});
-        return null;
-    });
-
-    $('#botonMarchaUp').click(function(){
-        socket.emit('control',{data:"Marcha+"});
-        return null;
-    });
-});
 
 
