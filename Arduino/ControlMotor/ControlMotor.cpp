@@ -39,6 +39,8 @@ La velocidad de giro de cada rueda depende del pwm con el cual se alimente al mo
 */
 
 void ControlMotor::retroceder(){ 
+  //120 derecha, 85 izquierda va bien
+  Serial.print("\n\nDENTRO DEL CONTROL.RETROCEDER\n\n");
   digitalWrite(motorDerechoA,HIGH); 
   digitalWrite(motorDerechoB,LOW);
   digitalWrite(motorIzquierdoA,HIGH);
@@ -52,39 +54,28 @@ void ControlMotor::avanzar(int v_left, int v_right){
   digitalWrite(motorDerechoB,HIGH);
   digitalWrite(motorIzquierdoA,LOW);
   digitalWrite(motorIzquierdoB,HIGH);
-  // if(velocidad==1){
-  //   analogWrite(pwmDerecho, 220);
-  //   analogWrite(pwmIzquierdo,220);
-  // }
-  // else if(velocidad==2){
-  //   analogWrite(pwmDerecho, 103);
-  //   analogWrite(pwmIzquierdo,150);
-  // }
-  // else if(velocidad==3){
-  //   analogWrite(pwmDerecho, 108);
-  //   analogWrite(pwmIzquierdo,160);
-  // }
   analogWrite(pwmDerecho, v_right);
   analogWrite(pwmIzquierdo, v_left);
-  
 
 }
-void ControlMotor::girarIzquierda(){ 
+void ControlMotor::girarIzquierda(int v_left, int v_right){
+  //90 es una buena velocidad 
   digitalWrite(motorDerechoA,LOW);
   digitalWrite(motorDerechoB,LOW);
   digitalWrite(motorIzquierdoA,LOW);
   digitalWrite(motorIzquierdoB,HIGH);
-  analogWrite(pwmDerecho,90);
-  analogWrite(pwmIzquierdo,90);
+  analogWrite(pwmDerecho,v_right);
+  analogWrite(pwmIzquierdo,v_left);
 
 }
-void ControlMotor::girarDerecha(){ 
+void ControlMotor::girarDerecha(int v_left, int v_right){ 
+  //75 esta bien para andar
   digitalWrite(motorDerechoA,LOW);
   digitalWrite(motorDerechoB,HIGH);
   digitalWrite(motorIzquierdoA,LOW);
   digitalWrite(motorIzquierdoB,LOW);
-  analogWrite(pwmDerecho,90); 
-  analogWrite(pwmIzquierdo,90);
+  analogWrite(pwmDerecho,v_right); 
+  analogWrite(pwmIzquierdo,v_left);
 
 }
 void ControlMotor::parar(){ 
