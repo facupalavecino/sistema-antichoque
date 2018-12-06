@@ -70,7 +70,7 @@ def access():
             try:
                 sock.settimeout(3)
                 sock.sendall('1'); #Envio un pedido de informacion, es decir un solo byte envio
-                recibido = sock.recv(15)
+                recibido = sock.recv(1024)
                 j = 0
                 for i in range(0, 5):
                     while recibido[j] != '/':
