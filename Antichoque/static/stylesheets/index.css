@@ -54,6 +54,7 @@
 
 .navlink{
 	color: white;
+	background: none;
 	text-decoration: none
 	font-size: 120%;
 }
