@@ -34,20 +34,20 @@
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mi cuenta <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="/">Control</a></li>
-                <li><a href="/stats">Estadisticas</a></li>
-                <li><a href="/account">Mis datos</a></li>
-                <li><a href="/connect">Conectarse</a></li>
-                <li><a href="/faqs">FAQs</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="/logout">Logout</a> </li>
-              </ul>
-            </li>
-          </ul>
+          <div class="nav navbar-right" style="padding-top: 8px; padding-bottom: 8px;">
+
+                  <a class='button navlink btn' href="/">Control</a>
+                  |
+                  <a class='button navlink btn' href="/stats">Estadisticas</a>
+                  |
+                  <a class='button navlink btn' href="/account">Mis datos</a>
+                  |
+                  <a class='button navlink btn' href="/connect" accesskey="c">Conectarse</a>
+                  |
+                  <a class='button navlink btn' href="/faqs">FAQs</a>
+                  |
+                  <a class='button navlink btn' href="/logout">Logout</a>
+          </div>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
     </nav>
@@ -105,21 +105,25 @@
 
     </div>
 
-   <!--Footer-->
+    <!--Footer-->
     {% if eventos %}
         <footer class="footer" style="margin-top: 10px">
     {% else %}
         <footer class="footer" style="margin-top: 230px">
     {% endif %}
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-2">
+        <div style="display: flex; justify-content: space-between; flex-wrap: nowrap; text-align: right;">
+                <div>
                     <img class="img-fluid footerImg" src="static/assets/logo1.jpg" alt="Logo" height="90" width="100">
                 </div>
-                <div class="col-sm-2 col-sm-offset-8">
-                    <p class="float-right"><strong>Alvarez - Cristofano 2017</strong> </p>
+                <div style="padding-right: 15px; flex-direction: column; flex-wrap: wrap; margin-top: auto; margin-bottom: auto">
+                    <div>
+                        <strong>Duranti - Palavecino - Poch | 2018</strong>
+                    </div>
+                    <div>
+                        <strong>Alvarez - Cristofano | 2017</strong>
+                    </div>
+                
                 </div>
-            </div>
         </div>
     </footer>
 

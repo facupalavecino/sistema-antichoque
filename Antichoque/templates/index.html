@@ -34,31 +34,29 @@
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <ul class="nav navbar-nav navbar-right">
+          <div class="nav navbar-right" style="padding-top: 8px; padding-bottom: 8px;">
             
             {% if session_user_name %}
-                  <a class='navlink' href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mi cuenta</a>
+                  <a class='button navlink btn' href="">Control</a>
                   |
-                  <a class='navlink' href="">Control</a>
+                  <a class='button navlink btn' href="/stats">Estadisticas</a>
                   |
-                  <a class='navlink' href="/stats">Estadisticas</a>
+                  <a class='button navlink btn' href="/account">Mis datos</a>
                   |
-                  <a class='navlink' href="/account">Mis datos</a>
+                  <a class='button navlink btn' href="/connect" accesskey="c">Conectarse</a>
                   |
-                  <a class='navlink' href="/connect" accesskey="c">Conectarse</a>
+                  <a class='button navlink btn' href="/faqs">FAQs</a>
                   |
-                  <a class='navlink' href="/faqs">FAQs</a>
-                  |
-                  <a class='navlink' href="/logout">Logout</a>
+                  <a class='button navlink btn' href="/logout">Logout</a>
             {% else %}
-                <a class='navlink' href="/login">Iniciar Sesion</a>
+                  <a class='button navlink btn' href="/login">Iniciar Sesion</a>
             {% endif %}
-          </ul>
+          </div>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
     </nav>
 
-    {% if session_user_name %}
+    {% if session_user_name %} 
 
         <div class="container">
             
@@ -80,11 +78,10 @@
                             <br>
                             
                             <ul class="list-group" style="margin-top: -20px">
-                                <li class="list-group-item"><b><span id="marcha">Marcha: {{marcha}}</span></b></li> 
-                                <li class="list-group-item"><b><span id="state">Estado: {{state}}</span></b></li>
-                                <li class="list-group-item"><b><span id="left_distance">Distancia Izquierda: {{front_distance}}cm</span></b></li>
+                                <li class="list-group-item"><b><span id="state">Estado: {{state}} - {{marcha}}</span></b></li>
+                                <li class="list-group-item"><b><span id="left_distance">Distancia Izquierda: {{left_distance}}cm</span></b></li>
                                 <li class="list-group-item"><b><span id="front_distance">Distancia Central: {{front_distance}}cm</span></b></li>
-                                <li class="list-group-item"><b><span id="right_distance">Distancia Derecha: {{front_distance}}cm</span></b></li>
+                                <li class="list-group-item"><b><span id="right_distance">Distancia Derecha: {{right_distance}}cm</span></b></li>
                                 <li class="list-group-item"><b><span id="back_distance">Distancia Atras: {{back_distance}}cm</span></b></li>
                             </ul> 
                         </div>
@@ -176,12 +173,21 @@
     <br>
 
 
-    <!--Footer-->
+   <!--Footer-->
     <footer class="footer">
-        <div class="container-fluid">
-            <div class="row" style="text-align: center;">
-                Alvarez - Cristofano <strong>(2017)</strong> + Duranti - Palavecino - Poch <strong>(2018)</strong>
-            </div>
+        <div style="display: flex; justify-content: space-between; flex-wrap: nowrap; text-align: right;">
+                <div>
+                    <img class="img-fluid footerImg" src="static/assets/logo1.jpg" alt="Logo" height="90" width="100">
+                </div>
+                <div style="padding-right: 15px; flex-direction: column; flex-wrap: wrap; margin-top: auto; margin-bottom: auto">
+                    <div>
+                        <strong>Duranti - Palavecino - Poch | 2018</strong>
+                    </div>
+                    <div>
+                        <strong>Alvarez - Cristofano | 2017</strong>
+                    </div>
+                
+                </div>
         </div>
     </footer>
 
