@@ -7,6 +7,7 @@ function loadIndex() {
                 $('#error').text(data.error);
             }
             else{
+                $('#error').text('Conexion exitosa.')
                 if(data.state == "Avanzando")
                     $('#state').addClass("text-success");
                 else if(data.state == "Retrocediendo")
@@ -15,7 +16,41 @@ function loadIndex() {
                     $('#state').removeClass("text-danger");
                     $('#state').removeClass("text-success");
                 }
-            
+                
+                if(typeof data.state == 'undefined'){
+                    $('#btn-marchad').attr('disabled',true);
+                    $('#btn-freno').attr('disabled',true);
+                    $('#btn-marchaa').attr('disabled',true);
+                    $('#btn-avanzar').attr('disabled',true);
+                    $('#btn-izq').attr('disabled',true);
+                    $('#btn-der').attr('disabled',true);
+                    $('#btn-retro').attr('disabled',true);
+                    $('#btn-marchad').attr('accesskey','');
+                    $('#btn-freno').attr('accesskey','');
+                    $('#btn-marchaa').attr('accesskey','');
+                    $('#btn-avanzar').attr('accesskey','');
+                    $('#btn-izq').attr('accesskey','');
+                    $('#btn-der').attr('accesskey','');
+                    $('#btn-retro').attr('accesskey','');
+                    $('#error').text('Reconectando.')
+                }
+                else{
+                    $('#btn-marchad').attr('disabled',false);
+                    $('#btn-freno').attr('disabled',false);
+                    $('#btn-marchaa').attr('disabled',false);
+                    $('#btn-avanzar').attr('disabled',false);
+                    $('#btn-izq').attr('disabled',false);
+                    $('#btn-der').attr('disabled',false);
+                    $('#btn-retro').attr('disabled',false);
+                    $('#btn-marchad').attr('accesskey','q');
+                    $('#btn-freno').attr('accesskey','f')
+                    $('#btn-marchaa').attr('accesskey','e');
+                    $('#btn-avanzar').attr('accesskey','w');
+                    $('#btn-izq').attr('accesskey','a');
+                    $('#btn-der').attr('accesskey','d');
+                    $('#btn-retro').attr('accesskey','s');
+                }
+
                 $('#state').text("Estado: " + data.state);
 
                 $('#marcha').text("Marcha: " + data.marcha);
@@ -67,9 +102,9 @@ function loadIndex() {
     });
 }
 
-// $( document ).ready(function () {
-//     setInterval(loadIndex, 2500);
-// });
+$( document ).ready(function () {
+    setInterval(loadIndex, 2500);
+});
 
 
 

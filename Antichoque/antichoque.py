@@ -5,6 +5,7 @@ import MySQLdb
 import socket
 import math
 import datetime
+import time
 
 # Create a TCP/IP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -117,6 +118,10 @@ def access():
                 print(socketerror)
                 print(error)
                 cur.execute("UPDATE users SET state = 'semi-online' WHERE username = %s;", [username_session])
+                if (reconnect()):
+                    print('Reconexion exitosa.')
+                    inform = 'Reconexion exitosa'
+                    return redirect(url_for('index', inform=inform))
                 result = {"error": error}
                 return jsonify(result)
             result = {"error": "Ninguno", "state": state, "direction": direction, "marcha": speed, "turn": turn, "front_distance": front_distance, "back_distance": back_distance}
@@ -169,6 +174,23 @@ def control():
                 turn = 0
             sock.sendall(str(direction) + str(speed) + str(turn)); #Envio un pedido de comando, tres bytes (VER SI FUNCIONA)
     return redirect(url_for('index'))
+
+def reconnect():
+    global sock
+    try:   
+        print('Reconexion')
+        sock.connect(server_address)
+        sock.sendall(str(0) + str(0) + str(0));
+        username_session = escape(session['username']).capitalize()
+        username_session = username_session.lower()
+        cur.execute("UPDATE users SET state = 'online' WHERE username = %s;", [username_session])
+        return True
+    except socket.error as socketerror:
+        print(socketerror)
+        error = 'Error al conectarse'
+        sock.close()
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        return False
 
 
 @app.route('/login', methods=['GET', 'POST'])

@@ -184,8 +184,8 @@ void loop(void)
 
           }      
           if (len == 1){ //SI PIDE INFORMACION   
-               Serial.print("Estadisticas");
-               Serial.print("\r\n");
+//               Serial.print("Estadisticas");
+//               Serial.print("\r\n");
                data_send=(String(distance_front, 0)+'/'+String(distance_back, 0)+'/'+String(direction,DEC)+'/'+String(speed,DEC)+'/'+String(turn,DEC)+'/');//preparación de la informacio na enviar   
                for(len=0; len<data_send.length();len++){ // Se coloca el string en el buffer para su proximo envio
                      if(data_send[len]!= 32){ //en el caso de que la conversion a string me de un caracater espacio, lo reemplazo por '0'(En la práctica sucede)
@@ -197,10 +197,17 @@ void loop(void)
                  }
                //Serial.print("\r\n");
                //envio del estado
-               Serial.print(data_send.length());
-                Serial.print("\r\n"); 
+//               Serial.print(data_send.length());
+//                Serial.print("\r\n"); 
                
-                wifi.Send_data(buffer,data_send.length());
+                boolean result = wifi.Send_data(buffer,data_send.length());
+                if (result) {
+                  Serial.print("Result = true");
+                  Serial.print("\r\n"); 
+                } else {
+                  Serial.print("Result = false");
+                  Serial.print("\r\n"); 
+                }
                 Serial.print("Envio de datos");
                 Serial.print("\r\n");
                 for (len=0;len<data_send.length();len++){
