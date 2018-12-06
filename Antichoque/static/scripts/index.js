@@ -97,6 +97,50 @@ function loadIndex() {
                 }
                 else
                     $('#back_distance').text("Distancia Atras: " + data.back_distance + "cm");
+
+                if(data.left_distance > 75){
+                    $('#left_distance').removeClass("text-danger");
+                    $('#left_distance').removeClass("text-warning");
+                    $('#left_distance').addClass("text-success");
+                }
+                else if(data.left_distance > 50){
+                    $('#left_distance').removeClass("text-danger");
+                    $('#left_distance').removeClass("text-success");
+                    $('#left_distance').addClass("text-warning");
+                }
+                else{
+                    $('#left_distance').removeClass("text-success");
+                    $('#left_distance').removeClass("text-warning");
+                    $('#left_distance').addClass("text-danger");
+                }
+                
+                if(data.left_distance > 400){
+                    $('#left_distance').text("Distancia Izquierda: > 400cm");
+                }
+                else
+                    $('#left_distance').text("Distancia Izquierda: " + data.left_distance + "cm");
+
+                if(data.right_distance > 75){
+                    $('#right_distance').removeClass("text-danger");
+                    $('#right_distance').removeClass("text-warning");
+                    $('#right_distance').addClass("text-success");
+                }
+                else if(data.right_distance > 50){
+                    $('#right_distance').removeClass("text-danger");
+                    $('#right_distance').removeClass("text-success");
+                    $('#right_distance').addClass("text-warning");
+                }
+                else{
+                    $('#right_distance').removeClass("text-success");
+                    $('#right_distance').removeClass("text-warning");
+                    $('#right_distance').addClass("text-danger");
+                }
+                
+                if(data.right_distance > 400){
+                    $('#right_distance').text("Distancia Derecha: > 400cm");
+                }
+                else
+                    $('#right_distance').text("Distancia Derecha: " + data.right_distance + "cm");
             }
         }
     });

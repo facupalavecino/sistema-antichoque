@@ -76,7 +76,8 @@ def access():
                 sock.sendall('1'); #Envio un pedido de informacion, es decir un solo byte envio
                 recibido = sock.recv(1024)
                 j = 0
-                for i in range(0, 5):
+                print(recibido)
+                for i in range(0, 7):
                     while recibido[j] != '/':
                         if i == 0:
                             f_distance = f_distance + recibido[j]
@@ -92,13 +93,13 @@ def access():
                                state = 'Retrocediendo'               
                         elif i == 3:  # Analisis de la velocidad
                             speed = int(recibido[j]) 
-                        elif i == 5:  # Analisis de la direccion(si es cero es porque va hacia adelante o hacia atras)
+                        elif i == 4:  # Analisis de la direccion(si es cero es porque va hacia adelante o hacia atras)
                             turn = int(recibido[j])
                             if recibido[j] == '1':
                                 state = 'Izquierda'
                             elif recibido[j] == '2':
                                 state = 'Derecha' 
-                        elif i == 6:
+                        elif i == 5:
                             r_distance = r_distance + recibido[j]
                         else:
                             l_distance = l_distance + recibido[j]
@@ -141,7 +142,7 @@ def access():
                     return redirect(url_for('index', inform=inform))
                 result = {"error": error, "front_distance": 0, "back_distance": 0}
                 return jsonify(result)
-            result = {"error": "Ninguno", "state": state, "direction": direction, "marcha": speed, "turn": turn, "front_distance": front_distance, "back_distance": back_distance}
+            result = {"error": "Ninguno", "state": state, "direction": direction, "marcha": speed, "turn": turn, "front_distance": front_distance, "back_distance": back_distance, "right_distance": right_distance, "left_distance": left_distance}
             return jsonify(result)
     result = {"error": "Sin conexion"}
     return jsonify(result)
