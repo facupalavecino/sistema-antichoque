@@ -121,7 +121,8 @@ def access():
                 if (reconnect()):
                     print('Reconexion exitosa.')
                     inform = 'Reconexion exitosa'
-                    return redirect(url_for('index', inform=inform))
+                    result = {"error": "Reconexion"}
+                    return jsonify(result)
                 result = {"error": error}
                 return jsonify(result)
             result = {"error": "Ninguno", "state": state, "direction": direction, "marcha": speed, "turn": turn, "front_distance": front_distance, "back_distance": back_distance}
