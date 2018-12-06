@@ -37,20 +37,21 @@
           <ul class="nav navbar-nav navbar-right">
             
             {% if session_user_name %}
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mi cuenta <span class="caret"></span></a>
-                  <ul class="dropdown-menu">
-                    <li><a href="">Control</a></li>
-                    <li><a href="/stats">Estadisticas</a></li>
-                    <li><a href="/account">Mis datos</a></li>
-                    <li><a href="/connect" accesskey="c">Conectarse</a></li>
-                    <li><a href="/faqs">FAQs</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="/logout">Logout</a> </li>
-                  </ul>
-                </li>
+                  <a class='navlink' href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mi cuenta</a>
+                  |
+                  <a class='navlink' href="">Control</a>
+                  |
+                  <a class='navlink' href="/stats">Estadisticas</a>
+                  |
+                  <a class='navlink' href="/account">Mis datos</a>
+                  |
+                  <a class='navlink' href="/connect" accesskey="c">Conectarse</a>
+                  |
+                  <a class='navlink' href="/faqs">FAQs</a>
+                  |
+                  <a class='navlink' href="/logout">Logout</a>
             {% else %}
-                <li><a href="/login">Iniciar Sesion</a></li>
+                <a class='navlink' href="/login">Iniciar Sesion</a>
             {% endif %}
           </ul>
         </div><!-- /.navbar-collapse -->
@@ -62,9 +63,13 @@
         <div class="container">
             
             <div class="row justify-content-md-center">
-                <div class="col-md-6 col-md-offset-3 col-xs-12">
+                <div class="col-md-6 col-md-offset-3 col-xs-12" style="height: 440px;">
                     <div style="background:transparent; margin-top:-25px" class="jumbotron jumbotron-fluid">
                         <div class="container">
+
+                            <div class="container text-center" style="margin-top: -20px">
+                                <h2 class="parTitle"><strong>Estado Actual</strong></h2>
+                            </div>
 
                             {% if error %}
                                 <div class="alert alert-danger" style="text-align: center">{{ error }}</div>
@@ -72,13 +77,9 @@
                                 <div class="alert alert-success" style="text-align: center" id="error">{{ inform }}</div>
                             {% endif %}
 
-                            <div class="container text-center" style="margin-top: -8px">
-                                <h2 class="parTitle"><strong>Estado Actual</strong></h2>
-                            </div>
-
                             <br>
                             
-                            <ul class="list-group">
+                            <ul class="list-group" style="margin-top: -20px">
                                 <li class="list-group-item"><b><span id="marcha">Marcha: {{marcha}}</span></b></li> 
                                 <li class="list-group-item"><b><span id="state">Estado: {{state}}</span></b></li>
                                 <li class="list-group-item"><b><span id="left_distance">Distancia Izquierda: {{front_distance}}cm</span></b></li>
@@ -178,13 +179,8 @@
     <!--Footer-->
     <footer class="footer">
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-2">
-                    <img class="img-fluid footerImg" src="static/assets/logo1.jpg" alt="Logo" height="90" width="100">
-                </div>
-                <div class="col-sm-6 col-sm-offset-4">
-                    <p class="float-right"><strong>Alvarez - Cristofano (2017) + Duranti - Palavecino - Poch (2018)</strong></p>
-                </div>
+            <div class="row" style="text-align: center;">
+                Alvarez - Cristofano <strong>(2017)</strong> + Duranti - Palavecino - Poch <strong>(2018)</strong>
             </div>
         </div>
     </footer>

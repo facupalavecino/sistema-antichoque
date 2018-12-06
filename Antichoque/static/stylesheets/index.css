@@ -44,9 +44,22 @@
 }
 
 .box {
+	padding-top: 15px;
 	width: 100%;
     display: flex;
     flex-wrap: wrap; /* Optional. only if you want the items to wrap */
     justify-content: center; /* For horizontal alignment */
     align-items: center; /* For vertical alignment */
+}
+
+.navlink{
+	color: white;
+	text-decoration: none
+	font-size: 120%;
+}
+
+.navlink:hover{
+	color: gray;
+	text-decoration: none
+	font-size: 10px;
 }
