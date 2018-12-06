@@ -32,7 +32,7 @@ function loadIndex() {
                     $('#btn-izq').attr('accesskey','');
                     $('#btn-der').attr('accesskey','');
                     $('#btn-retro').attr('accesskey','');
-                    $('#error').text('Reconectando...')
+                    $('#error').text('Reconectando.')
                 }
                 else{
                     $('#btn-marchad').attr('disabled',false);
