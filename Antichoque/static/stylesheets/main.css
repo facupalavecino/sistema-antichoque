@@ -8,6 +8,12 @@
 	margin-top: 4rem;
 }
 
+.centrado{
+	margin: auto;
+	width: 100%;
+
+}
+
 .footerImg {
   padding: 15px;
   border-radius: 30%;
@@ -30,4 +36,15 @@
 	color:grey !important;
 }
 
+.navlink{
+	color: white;
+	background: none;
+	text-decoration: none
+	font-size: 120%;
+}
 
+.navlink:hover{
+	color: gray;
+	text-decoration: none
+	font-size: 10px;
+}

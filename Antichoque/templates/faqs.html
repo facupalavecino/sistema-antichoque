@@ -34,25 +34,19 @@
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <ul class="nav navbar-nav navbar-right">
-            
-            {% if session_user_name %}
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mi cuenta <span class="caret"></span></a>
-                  <ul class="dropdown-menu">
-                    <li><a href="/">Control</a></li>
-                    <li><a href="/stats">Estadisticas</a></li>
-                    <li><a href="/account">Mis datos</a></li>
-                    <li><a href="/connect">Conectarse</a></li>
-                    <li><a href="/faqs">FAQs</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="/logout">Logout</a> </li>
-                  </ul>
-                </li>
-            {% else %}
-                <li><a href="/login">Iniciar Sesion</a></li>
-            {% endif %}
-          </ul>
+          <div class="nav navbar-right" style="padding-top: 8px; padding-bottom: 8px;">
+                  <a class='button navlink btn' href="/">Control</a>
+                  |
+                  <a class='button navlink btn' href="/stats">Estadisticas</a>
+                  |
+                  <a class='button navlink btn' href="/account">Mis datos</a>
+                  |
+                  <a class='button navlink btn' href="/connect" accesskey="c">Conectarse</a>
+                  |
+                  <a class='button navlink btn' href="/faqs">FAQs</a>
+                  |
+                  <a class='button navlink btn' href="/logout">Logout</a>
+          </div>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
     </nav>
@@ -67,20 +61,18 @@
 
         <!-- Primer rectangulo -->
         <div class="row">
-            <div class="col-md-8" style="text-align: center; margin:auto;">
-                <h1 class="parTitle"><strong>¿Como funciona el sistema de control del autito?</strong></h1>
+            <div class="centrado" style="text-align: center; margin:auto;">
+                <h1 class="parTitle" style="color: black"><strong>¿Como funciona el sistema de control del autito?</strong></h1>
                 <p class="lead"><i>El usuario de la plataforma web envia los comandos al servidor, y este ultimo es el encargado de comunicarse con el autito para comandarlo. A su vez, recolecta de este los valores mas importantes, almacenandolos para su posterior presentacion en la plataforma.</i></p>
             </div>
-            <div class="col-md-4"></div>
         </div>
 
         <hr>
         <br>
         <!-- Segundo rectangulo -->
         <div class="row">
-            <div class="col-md-4"></div>
-            <div class="col-md-8" style="text-align: center; margin:auto;">
-                <h1 class="parTitle"><strong>¿Que debo hacer para controlar un autito con este sistema?</strong></h1>
+            <div class="centrado" style="text-align: center; margin:auto;">
+                <h1 class="parTitle" style="color: black"><strong>¿Que debo hacer para controlar un autito con este sistema?</strong></h1>
                 <p class="lead"><i>Primero usted debe registrarse en la pagina. Una vez registrado, usted debe acceder a la pestaña de control en su cuenta, donde dispondra de los botones que le permitiran comandar el autito.</i></p>
             </div> 
             
@@ -91,11 +83,11 @@
 
         <!-- Tercer rectangulo -->
         <div class="row">
-            <div class="col-md-8" style="text-align: center; margin:auto;">
-                <h1 class="parTitle"><strong>¿Debo conectarme al autito?</strong></h1>
+            <div class="centrado" style="text-align: center; margin:auto;">
+                <h1 class="parTitle" style="color: black"><strong>¿Debo conectarme al autito?</strong></h1>
                 <p class="lead"><i>Si, usted se debe dirigir a la pestaña de conectarse. Una vez que la conexion fue exitosa, usted estara en condiciones de comandar al autito. En caso de perdida de conexion o error en la misma, usted sera informado, para que pueda conectarse nuevamente.</i></p>
             </div>
-            <div class="col-md-4"></div>
+
         </div>
     
 
@@ -104,9 +96,8 @@
 
     <!-- Segundo rectangulo -->
         <div class="row">
-            <div class="col-md-4"></div>
-            <div class="col-md-8" style="text-align: center; margin:auto;">
-                <h1 class="parTitle"><strong>¿Que estadisticas o informacion me provee la plataforma?</strong></h1>
+            <div class="centrado" style="text-align: center; margin:auto;">
+                <h1 class="parTitle" style="color: black"><strong>¿Que estadisticas o informacion me provee la plataforma?</strong></h1>
                 <p class="lead"><i>En la pestaña de control del autito es posible visualizar el estado actual del autito. Por otro lado, en la pestaña de estadisticas es posible ver los ultimos 10 eventos mas importantes que han ocurrido con el autito.</i></p>
             </div> 
             
@@ -118,15 +109,19 @@
 
    <!--Footer-->
     <footer class="footer">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-2">
+        <div style="display: flex; justify-content: space-between; flex-wrap: nowrap; text-align: right;">
+                <div>
                     <img class="img-fluid footerImg" src="static/assets/logo1.jpg" alt="Logo" height="90" width="100">
                 </div>
-                <div class="col-sm-2 col-sm-offset-8">
-                    <p class="float-right"><strong>Alvarez - Cristofano 2017</strong> </p>
+                <div style="padding-right: 15px; flex-direction: column; flex-wrap: wrap; margin-top: auto; margin-bottom: auto">
+                    <div>
+                        <strong>Duranti - Palavecino - Poch | 2018</strong>
+                    </div>
+                    <div>
+                        <strong>Alvarez - Cristofano | 2017</strong>
+                    </div>
+                
                 </div>
-            </div>
         </div>
     </footer>
 
