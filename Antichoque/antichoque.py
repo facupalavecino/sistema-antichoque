@@ -44,10 +44,10 @@ def index():
             error = request.args.get("error") 
             if not error:
                 error = "Usted no esta conectado"
-            return render_template('index.html', error=error, session_user_name=username_session, state='Desconectado', direction=0, marcha=0 , turn=0, back_distance=0, front_distance=0)
+            return render_template('index.html', error=error, session_user_name=username_session, state='Desconectado', direction=0, marcha=0 , turn=0, back_distance=0, front_distance=0, right_distance=0, left_distance=0)
         else:
             inform = request.args.get("inform") 
-            return render_template('index.html', inform=inform, session_user_name=username_session,  state='Desconectado', direction=0, marcha=0, turn=0, back_distance=0, front_distance=0)
+            return render_template('index.html', inform=inform, session_user_name=username_session,  state='Desconectado', direction=0, marcha=0, turn=0, back_distance=0, front_distance=0, right_distance=0, left_distance=0)
 
 @app.route("/access")
 def access():
@@ -61,8 +61,12 @@ def access():
         username_session = username_session.lower()
         f_distance = ''
         b_distance = ''
+        l_distance = ''
+        r_distance = ''
         front_distance = 0
         back_distance = 0
+        right_distance = 0
+        left_distance = 0
         state = 'Desconectado'
         cur.execute("SELECT COUNT(1) FROM users WHERE state = 'online' && username = %s;", [username_session])
         #Si estoy conectado al servidor del autito puedo utilizarlo sino no
@@ -88,12 +92,17 @@ def access():
                                state = 'Retrocediendo'               
                         elif i == 3:  # Analisis de la velocidad
                             speed = int(recibido[j]) 
-                        else:  # Analisis de la direccion(si es cero es porque va hacia adelante o hacia atras)
+                        elif i == 5:  # Analisis de la direccion(si es cero es porque va hacia adelante o hacia atras)
                             turn = int(recibido[j])
                             if recibido[j] == '1':
                                 state = 'Izquierda'
                             elif recibido[j] == '2':
                                 state = 'Derecha' 
+                        elif i == 6:
+                            r_distance = r_distance + recibido[j]
+                        else:
+                            l_distance = l_distance + recibido[j]
+
                         j=j+1
                     j=j+1
                 #Verificamos que la marcha sea 0 para indicar que el vehiculo esta parado
@@ -101,10 +110,18 @@ def access():
                     state = 'Parado'
                 front_distance = int(f_distance)
                 back_distance = int(b_distance)
+                right_distance = int(r_distance)
+                left_distance = int(l_distance)
                 #Agregamos los eventos, si son de importancia
                 fecha = datetime.date.today()
                 hora = str(datetime.datetime.now().time())
-                hora = hora.split(".")[0] 
+                hora = hora.split(".")[0]
+                if right_distance < 100:
+                    cur.execute('INSERT INTO eventos(username, fecha, hora, dist, type) VALUES (%s,%s,%s,%s,%s)', ([username_session], [fecha], [hora], [right_distance], 'Derecha'))
+                    db.commit() 
+                if left_distance < 100:
+                    cur.execute('INSERT INTO eventos(username, fecha, hora, dist, type) VALUES (%s,%s,%s,%s,%s)', ([username_session], [fecha], [hora], [left_distance], 'Izquierda'))
+                    db.commit() 
                 if front_distance < 100:
                     cur.execute('INSERT INTO eventos(username, fecha, hora, dist, type) VALUES (%s,%s,%s,%s,%s)', ([username_session], [fecha], [hora], [front_distance], 'Avance'))
                     db.commit()
@@ -122,7 +139,7 @@ def access():
                     print('Reconexion exitosa.')
                     inform = 'Reconexion exitosa'
                     return redirect(url_for('index', inform=inform))
-                result = {"error": error}
+                result = {"error": error, "front_distance": 0, "back_distance": 0}
                 return jsonify(result)
             result = {"error": "Ninguno", "state": state, "direction": direction, "marcha": speed, "turn": turn, "front_distance": front_distance, "back_distance": back_distance}
             return jsonify(result)
